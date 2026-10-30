@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Plataforma {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @db.VarChar(150)
+  series    Serie[]
+  valoraciones Valoracion[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("plataformas")
+}
+
+model Serie {
+  id            Int          @id @default(autoincrement())
+  nombre        String       @db.VarChar(150)
+  plataformaId  Int
+  plataforma    Plataforma   @relation(fields: [plataformaId], references: [id], onDelete: Restrict)
+  valoraciones  Valoracion[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("series")
+}
+
+model Valoracion {
+  id           Int        @id @default(autoincrement())
+  plataformaId Int
+  serieId      Int
+  puntaje      Int
+  observacion  String     @db.Text
+  plataforma   Plataforma @relation(fields: [plataformaId], references: [id], onDelete: Restrict)
+  serie        Serie      @relation(fields: [serieId], references: [id], onDelete: Restrict)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("valoraciones")
+}

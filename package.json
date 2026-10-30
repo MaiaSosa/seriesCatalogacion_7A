@@ -1,0 +1,39 @@
+{
+  "name": "seriescatalogacion_7a",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplicación web para gestionar plataformas, series y valoraciones con PostgreSQL.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaiaSosa/seriesCatalogacion_7A.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaiaSosa/seriesCatalogacion_7A/issues"
+  },
+  "homepage": "https://github.com/MaiaSosa/seriesCatalogacion_7A#readme",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "next": "^16.4.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.3",
+    "prisma": "^5.22.0",
+    "typescript": "^6.0.3"
+  }
+}
