@@ -5,9 +5,11 @@
   "description": "Aplicación web para gestionar plataformas, series y valoraciones con PostgreSQL.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && next build"
   },
   "repository": {
     "type": "git",
