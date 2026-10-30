@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
+    const prisma = getPrisma();
     const valoraciones = await prisma.valoracion.findMany({
       orderBy: { id: "asc" },
       include: {
@@ -18,7 +19,7 @@ export async function GET() {
     return NextResponse.json({ ok: true, data: valoraciones });
   } catch (error) {
     return NextResponse.json(
-      { ok: false, message: "No se pudieron consultar las valoraciones." },
+      { ok: false, message: error instanceof Error ? error.message : "No se pudieron consultar las valoraciones." },
       { status: 500 }
     );
   }
@@ -26,6 +27,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const prisma = getPrisma();
     const body = await request.json();
     const plataformaId = Number(body?.plataformaId);
     const serieId = Number(body?.serieId);
@@ -84,6 +86,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, data: valoracion }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ ok: false, message: "No se pudo crear la valoración." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "No se pudo crear la valoración." }, { status: 500 });
   }
 }

@@ -1,9 +1,10 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const prisma = getPrisma();
     const { id } = await params;
     const parsedId = Number(id);
 
@@ -19,12 +20,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 
     return NextResponse.json({ ok: true, data: plataforma });
   } catch (error) {
-    return NextResponse.json({ ok: false, message: "Error al consultar la plataforma." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "Error al consultar la plataforma." }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const prisma = getPrisma();
     const { id } = await params;
     const parsedId = Number(id);
     if (!Number.isInteger(parsedId)) {
@@ -49,12 +51,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ ok: false, message: "Plataforma no encontrada." }, { status: 404 });
     }
 
-    return NextResponse.json({ ok: false, message: "No se pudo actualizar la plataforma." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "No se pudo actualizar la plataforma." }, { status: 500 });
   }
 }
 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const prisma = getPrisma();
     const { id } = await params;
     const parsedId = Number(id);
     if (!Number.isInteger(parsedId)) {
@@ -75,6 +78,6 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
       );
     }
 
-    return NextResponse.json({ ok: false, message: "No se pudo eliminar la plataforma." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "No se pudo eliminar la plataforma." }, { status: 500 });
   }
 }

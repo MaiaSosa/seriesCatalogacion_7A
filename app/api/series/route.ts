@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
+    const prisma = getPrisma();
     const series = await prisma.serie.findMany({
       orderBy: { id: "asc" },
       include: {
@@ -14,12 +15,13 @@ export async function GET() {
 
     return NextResponse.json({ ok: true, data: series });
   } catch (error) {
-    return NextResponse.json({ ok: false, message: "No se pudieron consultar las series." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "No se pudieron consultar las series." }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const prisma = getPrisma();
     const body = await request.json();
     const nombre = typeof body?.nombre === "string" ? body.nombre.trim() : "";
     const plataformaId = Number(body?.plataformaId);
@@ -51,6 +53,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, data: serie }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ ok: false, message: "No se pudo crear la serie." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: error instanceof Error ? error.message : "No se pudo crear la serie." }, { status: 500 });
   }
 }
